@@ -5,6 +5,7 @@ import '../../application/ui/messages/messages_mixin.dart';
 class HomeController extends GetxController with LoaderMixin, MessagesMixin {
   final _loading = false.obs;
   final _message = Rxn<MessageModel>();
+  // ignore: constant_identifier_names
   static const NAVIGATION_KEY = 1;
 
   final _pages = ['/alarm', '/historic', '/settings'];
