@@ -61,7 +61,6 @@ class AlarmPage extends GetView<AlarmController> {
                                 Text(
                                   "${controller.androidBatteryInfo.batteryLevel}%",
                                   style: const TextStyle(
-                                    color: Colors.white,
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -75,7 +74,6 @@ class AlarmPage extends GetView<AlarmController> {
                                             ChargingStatus.Charging
                                         ? Icons.battery_charging_full
                                         : Icons.battery_full,
-                                    color: Colors.white,
                                     size: 70,
                                   ),
                                 ),
@@ -90,10 +88,10 @@ class AlarmPage extends GetView<AlarmController> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MobileInfoRow(
-                        text:
-                            controller.androidBatteryInfo.health == "health_good"
-                                ? "GOOD"
-                                : "BAD",
+                        text: controller.androidBatteryInfo.health ==
+                                "health_good"
+                            ? "GOOD"
+                            : "BAD",
                         icon: Icons.favorite,
                       ),
                       MobileInfoRow(
@@ -103,11 +101,6 @@ class AlarmPage extends GetView<AlarmController> {
                       MobileInfoRow(
                         text: "${controller.androidBatteryInfo.temperature}°C",
                         icon: Icons.device_thermostat,
-                        iconColor:
-                            (controller.androidBatteryInfo.temperature ?? 0) >
-                                    35
-                                ? Colors.red
-                                : Colors.white,
                       ),
                     ],
                   ),
