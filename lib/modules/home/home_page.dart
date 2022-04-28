@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../alarm/alarm_bindings.dart';
 import '../alarm/alarm_page.dart';
+import '../settings/settings_bindings.dart';
+import '../settings/settings_page.dart';
 import 'home_controller.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -48,6 +50,13 @@ class HomePage extends GetView<HomeController> {
               settings: settings,
               page: () => const AlarmPage(),
               binding: AlarmBindings(),
+            );
+          }
+          if (settings.name == '/settings') {
+            return GetPageRoute(
+              settings: settings,
+              page: () => const SettingsPage(),
+              binding: SettingsBindings(),
             );
           }
           return null;
