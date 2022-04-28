@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:alarm_battery/models/settings_model.dart';
 import 'package:battery_info/battery_info_plugin.dart';
 import 'package:battery_info/enums/charging_status.dart';
@@ -6,9 +7,11 @@ import 'package:battery_info/model/android_battery_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
-final storage = FlutterSecureStorage();
+FlutterSecureStorage storage = const FlutterSecureStorage();
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
   await service.configure(
@@ -64,6 +67,23 @@ void onStartService(ServiceInstance service) async {
           settings = SettingsModel();
         }
 
+        if ((_androidBatteryInfo?.batteryLevel ?? 100) >= settings.endValue) {
+          if (_androidBatteryInfo?.chargingStatus == ChargingStatus.Charging) {
+            alarm(settings);
+          } else {
+            FlutterRingtonePlayer.stop();
+          }
+        } else if ((_androidBatteryInfo?.batteryLevel ?? 15) <=
+            settings.startValue) {
+          if (_androidBatteryInfo?.chargingStatus != ChargingStatus.Charging) {
+            alarm(settings);
+          } else {
+            FlutterRingtonePlayer.stop();
+          }
+        } else {
+          FlutterRingtonePlayer.stop();
+        }
+
         if (_androidBatteryInfo?.chargingStatus == ChargingStatus.Charging) {
           service.setForegroundNotificationInfo(
             title: "Battery: ${_androidBatteryInfo?.batteryLevel ?? 100}%",
@@ -87,4 +107,53 @@ String getBatteryRemain(AndroidBatteryInfo batteryInfo) {
   double estimateMinutes =
       ((batteryInfo.batteryCapacity! / 1000) / remainingEnergy) % 60;
   return "${estimateHour}h${estimateMinutes.round() < 10 ? '0${estimateMinutes.round()}m' : '${estimateMinutes.round()}m'}";
+}
+
+void alarm(SettingsModel settings) async {
+  try {
+    if (settings.vibrate) {
+      bool canVibrate = await Vibrate.canVibrate;
+      if (canVibrate) {
+        Vibrate.vibrateWithPauses([
+          const Duration(milliseconds: 500),
+          const Duration(milliseconds: 1000),
+          const Duration(milliseconds: 500),
+        ]);
+      }
+    }
+
+    if (settings.sound) {
+      switch (settings.androidSound) {
+        case 'Notification':
+          FlutterRingtonePlayer.play(
+            android: AndroidSounds.notification,
+            ios: IosSounds.glass,
+            looping: false,
+            volume: 0.1,
+            asAlarm: false,
+          );
+          break;
+        case 'Alarm':
+          FlutterRingtonePlayer.play(
+            android: AndroidSounds.alarm,
+            ios: IosSounds.glass,
+            looping: false,
+            volume: 0.1,
+            asAlarm: false,
+          );
+          break;
+        case 'Ringtone':
+          FlutterRingtonePlayer.play(
+            android: AndroidSounds.ringtone,
+            ios: IosSounds.glass,
+            looping: false,
+            volume: 0.1,
+            asAlarm: false,
+          );
+          break;
+      }
+    }
+  } catch (e) {
+    log('Surgiu algum erro inesperado $e');
+  }
 }

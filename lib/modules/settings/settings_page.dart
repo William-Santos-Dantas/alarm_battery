@@ -9,7 +9,6 @@ class SettingsPage extends GetView<SettingsController> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'Ringtone';
     return Scaffold(
       body: SafeArea(
         child: Obx(

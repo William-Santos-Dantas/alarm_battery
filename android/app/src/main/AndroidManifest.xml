@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alarm_battery">
+    <uses-permission android:name="android.permission.VIBRATE"/>
    <application
         android:label="alarm_battery"
         android:name="${applicationName}"
