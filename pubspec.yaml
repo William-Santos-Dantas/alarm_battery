@@ -36,7 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   get_storage: ^2.0.3
+  device_info_plus: ^3.2.3
   battery_info: ^1.0.8
+  flutter_secure_storage: ^5.0.2
+  flutter_background_service: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -7,8 +7,11 @@ import 'package:get_storage/get_storage.dart';
 import 'application/bindings/application_bindings.dart';
 import 'application/routes/routes.dart';
 import 'application/ui/Application_ui_config.dart';
+import 'background_service.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  initializeService();
   await GetStorage.init();
   runApp(const MyApp());
 }

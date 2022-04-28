@@ -34,10 +34,6 @@ class HomePage extends GetView<HomeController> {
               icon: Icon(Icons.settings),
               label: 'Settings',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.help),
-              label: 'Sobre',
-            ),
           ],
         ),
       ),
@@ -46,6 +42,13 @@ class HomePage extends GetView<HomeController> {
         key: Get.nestedKey(HomeController.NAVIGATION_KEY),
         onGenerateRoute: (settings) {
           if (settings.name == '/alarm') {
+            return GetPageRoute(
+              settings: settings,
+              page: () => const AlarmPage(),
+              binding: AlarmBindings(),
+            );
+          }
+          if (settings.name == '/historic') {
             return GetPageRoute(
               settings: settings,
               page: () => const AlarmPage(),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class SettingsModel {
@@ -8,6 +9,7 @@ class SettingsModel {
   final _startValue = 15.0.obs;
   final _endValue = 100.0.obs;
   final _androidSound = 'Ringtone'.obs;
+  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   SettingsModel({
     bool sound = true,
@@ -59,4 +61,6 @@ class SettingsModel {
   set setEndValue(dynamic value) => _endValue(value);
   get androidSound => _androidSound.value;
   set setAndroidSound(dynamic value) => _androidSound(value);
+
+  
 }

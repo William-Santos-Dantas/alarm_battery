@@ -28,6 +28,7 @@ class SettingsPage extends GetView<SettingsController> {
                 value: controller.settings.value.sound,
                 onChanged: (bool value) {
                   controller.settings.value.setSound = value;
+                  controller.saveSettings();
                 },
                 icon: Icons.volume_off,
               ),
@@ -36,6 +37,7 @@ class SettingsPage extends GetView<SettingsController> {
                 value: controller.settings.value.vibrate,
                 onChanged: (bool value) {
                   controller.settings.value.setVibrate = value;
+                  controller.saveSettings();
                 },
                 icon: Icons.smartphone,
               ),
@@ -45,7 +47,7 @@ class SettingsPage extends GetView<SettingsController> {
                   title: const Text('Battery'),
                   subtitle: Row(
                     children: [
-                      Text('${controller.settings.value.startValue}'),
+                      Text('${controller.settings.value.startValue.round()}'),
                       Expanded(
                         child: RangeSlider(
                           values: RangeValues(
@@ -60,10 +62,11 @@ class SettingsPage extends GetView<SettingsController> {
                                 values.start.roundToDouble();
                             controller.settings.value.setEndValue =
                                 values.end.roundToDouble();
+                            controller.saveSettings();
                           },
                         ),
                       ),
-                      Text('${controller.settings.value.endValue}'),
+                      Text('${controller.settings.value.endValue.round()}'),
                     ],
                   ),
                 ),
@@ -80,6 +83,7 @@ class SettingsPage extends GetView<SettingsController> {
                     underline: const SizedBox.shrink(),
                     onChanged: (String? value) {
                       controller.settings.value.setAndroidSound = value;
+                      controller.saveSettings();
                     },
                     items: <String>['Ringtone', 'Notification', 'Alarm']
                         .map<DropdownMenuItem<String>>(

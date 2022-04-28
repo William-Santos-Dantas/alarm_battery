@@ -8,7 +8,7 @@ class HomeController extends GetxController with LoaderMixin, MessagesMixin {
   // ignore: constant_identifier_names
   static const NAVIGATION_KEY = 1;
 
-  final _pages = ['/alarm', '/historic', '/settings', '/about'];
+  final _pages = ['/alarm', '/historic', '/settings'];
   final _pageIndex = 0.obs;
   int get pageIndex => _pageIndex.value;
 
